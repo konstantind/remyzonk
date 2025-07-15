@@ -2,32 +2,18 @@
 
 namespace app\Domain\ValueObject;
 
-final class Status
+enum Status: string
 {
-    private function __construct(private string $value) {}
+    case PENDING = 'pending';
+    case SENT = 'sent';
+    case DONE = 'done';
 
-    public static function pending(): self { return new self('pending'); }
-    public static function sent(): self { return new self('sent'); }
-    public static function done(): self { return new self('done'); }
-
-    public static function from(string $value): self
+    public static function fromString(string $value): self
     {
-        return match ($value) {
-            'pending' => self::pending(),
-            'sent'    => self::sent(),
-            'done'    => self::done(),
-            default   => throw new \InvalidArgumentException("Invalid status: $value"),
-        };
-    }
-
-    public function equals(Status $other): bool
-    {
-        return $this->value === $other->value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
+        $status = self::tryFrom($value);
+        if ($status === null) {
+            throw new \InvalidArgumentException("Invalid status: $value");
+        }
+        return $status;
     }
 }
-

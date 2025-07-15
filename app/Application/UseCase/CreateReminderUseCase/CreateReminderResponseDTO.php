@@ -27,7 +27,7 @@ readonly class CreateReminderResponseDTO
             chatId: $reminder->getChatId()->value(),
             creatorId: $reminder->getCreatorId()->value(),
             targetUserId: $reminder->getTargetUserId()->value(),
-            status: $reminder->getStatus()->value(),
+            status: $reminder->getStatus()->value,
         );
     }
 }

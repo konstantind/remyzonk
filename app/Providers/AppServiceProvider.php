@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Application\Service\ReminderDateTimeParserInterface;
 use App\Application\Service\ReminderNotifierInterface;
 use app\Domain\Repository\ReminderRepositoryInterface;
 use app\Infrastructure\Repository\ReminderEloquentRepository;
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            ReminderNotifierInterface::class,
+            ReminderDateTimeParserInterface::class,
             CarbonReminderDateTimeParser::class
         );
     }

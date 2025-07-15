@@ -22,7 +22,7 @@ class CreateReminderUseCase
             targetUserId: $dto->targetUserId ?? $dto->creatorId,
             text: $dto->text,
             remindAt: $dto->remindAt,
-            status: Status::pending(),
+            status: Status::PENDING,
         );
 
         $this->repository->save($reminder);

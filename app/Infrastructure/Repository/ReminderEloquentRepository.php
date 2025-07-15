@@ -29,7 +29,7 @@ class ReminderEloquentRepository implements ReminderRepositoryInterface
         $model->target_user_id = $reminder->getTargetUserId()->value();
         $model->text = $reminder->getText();
         $model->remind_at = $reminder->getRemindAt()->format('Y-m-d H:i:s');
-        $model->status = $reminder->getStatus()->value();
+        $model->status = $reminder->getStatus()->value;
 
         $model->save();
 
@@ -47,7 +47,7 @@ class ReminderEloquentRepository implements ReminderRepositoryInterface
     public function findPending(\DateTimeImmutable $now): iterable
     {
         $models = ReminderModel::query()
-            ->where('status', Status::pending()->value())
+            ->where('status', Status::PENDING)
             ->where('remind_at', '<=', $now->format('Y-m-d H:i:s'))
             ->get();
 

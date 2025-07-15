@@ -1,16 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace App\Domain\ValueObject;
-
 namespace app\Domain\ValueObject;
 
 final class UserId
 {
-    public function __construct(private int $value)
+    private int $value;
+
+    public function __construct(int $value)
     {
-        if ($value <= 0) {
-            throw new \InvalidArgumentException("User ID must be positive.");
-        }
+        $this->isValid($value);
+        $this->value = $value;
     }
 
     public function value(): int
@@ -18,8 +17,10 @@ final class UserId
         return $this->value;
     }
 
-    public function equals(UserId $other): bool
+    public function isValid(int $value): void
     {
-        return $this->value === $other->value;
+        if ($value <= 0) {
+            throw new \InvalidArgumentException("User ID must be positive.");
+        }
     }
 }

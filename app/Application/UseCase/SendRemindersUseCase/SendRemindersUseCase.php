@@ -25,8 +25,7 @@ class SendRemindersUseCase
                 "Напоминание: " . $reminder->getText(),
             );
 
-            // Меняем статус
-            $reminder->setStatus(Status::done());
+            $reminder->setStatus(Status::DONE);
             $this->reminderRepository->save($reminder);
         }
     }
