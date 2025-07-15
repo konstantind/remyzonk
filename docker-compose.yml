@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: telegram_app_nginx
+    restart: always
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - .:/data
+      - php_socket:/var/run/php
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - app_network
+
+  app:
+    build:
+      context: docker/fpm
+    container_name: telegram_app
+    restart: always
+    volumes:
+      - php_socket:/var/run/php
+      - .:/data
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  db:
+    image: postgres:16
+    container_name: telegram_db
+    restart: always
+    environment:
+      POSTGRES_DB: telegram
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+volumes:
+  php_socket:
+  pgdata:
+
+networks:
+  app_network:
+    driver: bridge
