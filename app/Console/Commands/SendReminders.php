@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use app\Application\UseCase\SendRemindersUseCase\SendRemindersUseCase;
+use App\Application\UseCase\SendRemindersUseCase\SendRemindersUseCase;
 use Illuminate\Console\Command;
 
 class SendReminders extends Command

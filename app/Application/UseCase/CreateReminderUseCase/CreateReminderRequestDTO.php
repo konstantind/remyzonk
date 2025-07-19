@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace app\Application\UseCase\CreateReminderUseCase;
+namespace App\Application\UseCase\CreateReminderUseCase;
 
-use app\Domain\ValueObject\ChatId;
-use app\Domain\ValueObject\UserId;
+use App\Domain\ValueObject\ChatId;
+use App\Domain\ValueObject\UserId;
 
-class CreateReminderRequestDTO
+readonly class CreateReminderRequestDTO
 {
     public function __construct(
         public ChatId             $chatId,

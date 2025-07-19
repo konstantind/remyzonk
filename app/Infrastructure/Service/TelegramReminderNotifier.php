@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace app\Infrastructure\Service;
+namespace App\Infrastructure\Service;
 
 use App\Application\Service\ReminderNotifierInterface;
 use Telegram\Bot\Api;

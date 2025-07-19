@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace app\Domain\Entity;
+namespace App\Domain\Entity;
 
-use app\Domain\ValueObject\ChatId;
-use app\Domain\ValueObject\Status;
-use app\Domain\ValueObject\UserId;
+use App\Domain\ValueObject\ChatId;
+use App\Domain\ValueObject\Status;
+use App\Domain\ValueObject\UserId;
 
 class Reminder
 {

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace app\Domain\Repository;
+namespace App\Domain\Repository;
 
-use app\Domain\Entity\Reminder;
+use App\Domain\Entity\Reminder;
 
 interface ReminderRepositoryInterface
 {

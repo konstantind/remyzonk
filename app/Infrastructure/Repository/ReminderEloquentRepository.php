@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace app\Infrastructure\Repository;
+namespace App\Infrastructure\Repository;
 
-use app\Domain\Entity\Reminder;
-use app\Domain\Repository\ReminderRepositoryInterface;
-use app\Domain\ValueObject\ChatId;
-use app\Domain\ValueObject\Status;
-use app\Domain\ValueObject\UserId;
+use App\Domain\Entity\Reminder;
+use App\Domain\Repository\ReminderRepositoryInterface;
+use App\Domain\ValueObject\ChatId;
+use App\Domain\ValueObject\Status;
+use App\Domain\ValueObject\UserId;
 use App\Models\Reminder as ReminderModel;
 
 class ReminderEloquentRepository implements ReminderRepositoryInterface

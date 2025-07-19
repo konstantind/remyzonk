@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace app\Application\UseCase\SendRemindersUseCase;
+namespace App\Application\UseCase\SendRemindersUseCase;
 
 use App\Application\Service\ReminderNotifierInterface;
-use app\Domain\Repository\ReminderRepositoryInterface;
-use app\Domain\ValueObject\Status;
+use App\Domain\Repository\ReminderRepositoryInterface;
+use App\Domain\ValueObject\Status;
 
 class SendRemindersUseCase
 {

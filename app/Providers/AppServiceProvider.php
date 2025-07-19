@@ -4,11 +4,15 @@ namespace App\Providers;
 
 use App\Application\Service\ReminderDateTimeParserInterface;
 use App\Application\Service\ReminderNotifierInterface;
-use app\Domain\Repository\ReminderRepositoryInterface;
-use app\Infrastructure\Repository\ReminderEloquentRepository;
-use app\Infrastructure\Service\CarbonReminderDateTimeParser;
-use app\Infrastructure\Service\TelegramReminderNotifier;
+use App\Domain\Repository\ReminderRepositoryInterface;
+use App\Domain\Repository\UserRepositoryInterface;
+use App\Infrastructure\Repository\ReminderEloquentRepository;
+use App\Infrastructure\Repository\UserEloquentRepository;
+use App\Infrastructure\Service\CarbonReminderDateTimeParser;
+use App\Infrastructure\Service\TelegramReminderNotifier;
+use App\Infrastructure\Telegram\Commands\RemindCommand;
 use Illuminate\Support\ServiceProvider;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserEloquentRepository::class
+        );
+
         $this->app->bind(
             ReminderRepositoryInterface::class,
             ReminderEloquentRepository::class
@@ -38,6 +47,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Telegram::addCommand(RemindCommand::class);
     }
 }

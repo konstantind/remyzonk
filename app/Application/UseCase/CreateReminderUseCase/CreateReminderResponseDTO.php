@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace app\Application\UseCase\CreateReminderUseCase;
+namespace App\Application\UseCase\CreateReminderUseCase;
 
-use app\Domain\Entity\Reminder;
+use App\Domain\Entity\Reminder;
 
 readonly class CreateReminderResponseDTO
 {

@@ -2,9 +2,9 @@
 
 namespace App\Application\UseCase\CreateReminderUseCase;
 
-use app\Domain\Entity\Reminder;
-use app\Domain\Repository\ReminderRepositoryInterface;
-use app\Domain\ValueObject\Status;
+use App\Domain\Entity\Reminder;
+use App\Domain\Repository\ReminderRepositoryInterface;
+use App\Domain\ValueObject\Status;
 
 class CreateReminderUseCase
 {
