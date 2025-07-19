@@ -5,7 +5,8 @@ namespace App\Infrastructure\Telegram\Commands;
 use App\Application\Service\ReminderDateTimeParserInterface;
 use App\Application\UseCase\CreateReminderUseCase\CreateReminderRequestDTO;
 use App\Application\UseCase\CreateReminderUseCase\CreateReminderUseCase;
-use App\Domain\Entity\User;
+use App\Application\UseCase\SaveUserUseCase\SaveUserUseCase;
+use App\Application\UseCase\SaveUserUseCase\SaveUserUseCaseRequestDTO;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
@@ -20,6 +21,7 @@ class RemindCommand extends Command
         protected ReminderDateTimeParserInterface $parser,
         protected UserRepositoryInterface $userRepository,
         protected CreateReminderUseCase $createReminderUseCase,
+        protected SaveUserUseCase $saveUserUseCase,
     ) {
     }
 
@@ -32,15 +34,12 @@ class RemindCommand extends Command
         $fromUser = $message->getFrom();
         $text = $message->getText();
 
-        $user = $this->userRepository->findById($fromUser->getId());
-
-        if (!$user) {
-            $user = new User(
-                id: new UserId($fromUser->getId()),
-                username: $fromUser->getUsername(),
-            );
-            $this->userRepository->save($user);
-        }
+        $this->saveUserUseCase->execute(
+            new SaveUserUseCaseRequestDTO(
+                $fromUser->getId(),
+                $fromUser->getUsername(),
+            )
+        );
 
         $targetUserId = null;
 

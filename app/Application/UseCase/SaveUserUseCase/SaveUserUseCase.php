@@ -17,7 +17,10 @@ class SaveUserUseCase
         $existing = $this->userRepository->findById($dto->id);
 
         if ($existing === null) {
-            $user = new User(new UserId($dto->id), $dto->username);
+            $user = new User(
+                new UserId($dto->id),
+                $dto->username
+            );
             $this->userRepository->save($user);
         }
     }
