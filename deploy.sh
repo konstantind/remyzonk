@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/root/remyzonk || exit
+cd /root/remyzonk || exit
 
 git pull origin main
 
