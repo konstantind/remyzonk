@@ -12,8 +12,7 @@ services:
       - ./docker/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - .:/data
       - php_socket:/var/run/php
-      - /etc/letsencrypt:/etc/letsencrypt
-      - ./certbot/webroot:/var/www/certbot
+      - ./data/certbot/www:/var/www/certbot
     depends_on:
       - app
     networks:
@@ -62,6 +61,13 @@ services:
     restart: always
     networks:
       - app_network
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: /bin/sh -c "sleep 5 && certbot certonly --webroot -w /var/www/certbot -d remyzonk.ru --email merty.fake@gmail.com --agree-tos --no-eff-email"
 
 volumes:
   php_socket:
