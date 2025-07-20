@@ -3,7 +3,6 @@ version: '3.8'
 services:
   nginx:
     image: nginx:latest
-    container_name: telegram_app_nginx
     restart: always
     ports:
       - "80:80"
@@ -19,19 +18,27 @@ services:
   app:
     build:
       context: docker/fpm
-    container_name: telegram_app
     restart: always
     volumes:
       - .:/data
       - php_socket:/var/run/php
     depends_on:
       - db
+      - redis
     networks:
       - app_network
+    command: >
+      sh -c "
+        php artisan migrate --force &&
+        php artisan config:cache &&
+        php artisan route:cache &&
+        php artisan view:cache &&
+        php artisan telegram:setWebhook &&
+        php artisan schedule:work
+      "
 
   db:
     image: postgres:16
-    container_name: telegram_db
     restart: always
     environment:
       POSTGRES_DB: telegram

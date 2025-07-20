@@ -6,8 +6,11 @@ $telegram->setWebhook(['url' => 'https://ee4c5739de96.ngrok-free.app/api/telegra
 ```
 
 ```shell
-php artisan reminders:send
+php artisan telegram:setWebhook
+```
 
+```shell
+php artisan reminders:send
 php artisan schedule:work
 ```
 
