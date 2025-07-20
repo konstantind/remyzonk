@@ -22,7 +22,6 @@ COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /data
-
 VOLUME /data
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "-F", "-y", "/usr/local/etc/php-fpm.conf"]
