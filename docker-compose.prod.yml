@@ -7,10 +7,13 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./docker/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - .:/data
       - php_socket:/var/run/php
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./certbot/webroot:/var/www/certbot
     depends_on:
       - app
     networks:
