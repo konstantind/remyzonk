@@ -7,7 +7,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./docker/nginx/nginx.test.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - .:/data
       - php_socket:/var/run/php
       - ./data/certbot/conf:/etc/letsencrypt:ro
@@ -67,7 +67,7 @@ services:
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    entrypoint: /bin/sh -c "sleep 5 && certbot certonly --webroot -w /var/www/certbot -d remyzonk.ru --email merty.fake@gmail.com --agree-tos --no-eff-email"
+    entrypoint: /bin/sh -c "sleep 10 && certbot certonly --webroot -w /var/www/certbot -d remyzonk.ru --email merty.fake@gmail.com --agree-tos --no-eff-email"
 
 volumes:
   php_socket:
