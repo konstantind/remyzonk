@@ -23,7 +23,7 @@ jobs:
             echo "APP_NAME=Laravel" > .env
             echo "APP_ENV=prod" >> .env
             echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
-            echo "APP_URL=${{ secrets.APP_URL }}" >> .env
+            echo "APP_URL=https://remyzonk.ru" >> .env
             echo "APP_LOCALE=ru" >> .env
             echo "APP_FALLBACK_LOCALE=ru" >> .env
             echo "APP_TIMEZONE=Europe/Moscow" >> .env
