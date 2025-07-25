@@ -3,7 +3,7 @@ name: Deploy to VDS
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -18,38 +18,29 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /${{ secrets.VDS_USER }}/remyzonk
-            
-            cat > .env <<EOL
-            APP_NAME=Laravel
-            APP_ENV=prod
-            APP_KEY=${{ secrets.APP_KEY }}
-            APP_URL=${{ secrets.APP_URL }}
-            
-            APP_LOCALE=ru
-            APP_FALLBACK_LOCALE=ru
-            APP_TIMEZONE=Europe/Moscow
-            
-            LOG_CHANNEL=stack
-            LOG_LEVEL=debug
-            
-            DB_CONNECTION=pgsql
-            DB_HOST=db
-            DB_PORT=5432
-            DB_DATABASE=${{ secrets.DB_DATABASE }}
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            
-            SESSION_DRIVER=database
-            SESSION_LIFETIME=120
-            
-            REDIS_CLIENT=phpredis
-            REDIS_HOST=redis
-            REDIS_PORT=6379
-            
-            QUEUE_CONNECTION=database
-            CACHE_STORE=database
-            
-            TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
-            EOL
+
+            echo "APP_NAME=Laravel" > .env
+            echo "APP_ENV=prod" >> .env
+            echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+            echo "APP_URL=${{ secrets.APP_URL }}" >> .env
+            echo "APP_LOCALE=ru" >> .env
+            echo "APP_FALLBACK_LOCALE=ru" >> .env
+            echo "APP_TIMEZONE=Europe/Moscow" >> .env
+            echo "LOG_CHANNEL=stack" >> .env
+            echo "LOG_LEVEL=debug" >> .env
+            echo "DB_CONNECTION=pgsql" >> .env
+            echo "DB_HOST=db" >> .env
+            echo "DB_PORT=5432" >> .env
+            echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+            echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "SESSION_DRIVER=database" >> .env
+            echo "SESSION_LIFETIME=120" >> .env
+            echo "REDIS_CLIENT=phpredis" >> .env
+            echo "REDIS_HOST=redis" >> .env
+            echo "REDIS_PORT=6379" >> .env
+            echo "QUEUE_CONNECTION=database" >> .env
+            echo "CACHE_STORE=database" >> .env
+            echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}" >> .env
             
             ./deploy.sh
