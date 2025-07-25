@@ -56,15 +56,14 @@ services:
       sh -c "
         php artisan schedule:work
       "
-
   db:
     image: postgres:16
     container_name: telegram_db
     restart: always
     environment:
-      POSTGRES_DB: telegram
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
