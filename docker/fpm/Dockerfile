@@ -1,19 +1,14 @@
 FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
     libonig-dev \
     libzip-dev \
-    libmemcached-dev \
     zlib1g-dev \
     libssl-dev\
-    libmcrypt-dev \
     libpq-dev \
-    && pecl install redis memcached \
-    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo pdo_mysql zip pdo_pgsql pgsql \
-    && docker-php-ext-enable pdo_mysql redis memcached pdo_pgsql pgsql
+    && pecl install redis \
+    && docker-php-ext-install -j$(nproc) iconv mbstring pdo zip pdo_pgsql pgsql \
+    && docker-php-ext-enable redis pdo_pgsql pgsql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -25,4 +20,4 @@ RUN sed -i 's|^include=.*|include=/usr/local/etc/php-fpm.d/*.conf|' /usr/local/e
 WORKDIR /data
 VOLUME /data
 
-CMD ["php-fpm", "-F", "-y", "/usr/local/etc/php-fpm.conf"]
+CMD ["php-fpm"]
