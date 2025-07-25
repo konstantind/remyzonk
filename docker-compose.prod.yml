@@ -40,6 +40,23 @@ services:
         php-fpm -F
       "
 
+  schedule:
+    build:
+      context: docker/fpm
+    container_name: telegram_schedule
+    restart: always
+    volumes:
+      - .:/data
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app_network
+    command: >
+      sh -c "
+        php artisan schedule:work
+      "
+
   db:
     image: postgres:16
     container_name: telegram_db
