@@ -4,6 +4,7 @@ namespace App\Application\UseCase\SaveUserUseCase;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
 
 class SaveUserUseCase
@@ -14,14 +15,22 @@ class SaveUserUseCase
 
     public function execute(SaveUserUseCaseRequestDTO $dto): void
     {
-        $existing = $this->userRepository->findById($dto->id);
+        $existingUser = $this->userRepository->findById($dto->id);
 
-        if ($existing === null) {
-            $user = new User(
-                new UserId($dto->id),
-                $dto->username
-            );
-            $this->userRepository->save($user);
+        $privateChatId = null;
+
+        if ($dto->privateChatId !== null) {
+            $privateChatId = new ChatId($dto->privateChatId);
+        } elseif ($existingUser !== null) {
+            $privateChatId = $existingUser->getPrivateChatId();
         }
+
+        $user = new User(
+            new UserId($dto->id),
+            $dto->username,
+            $privateChatId,
+        );
+
+        $this->userRepository->save($user);
     }
 }

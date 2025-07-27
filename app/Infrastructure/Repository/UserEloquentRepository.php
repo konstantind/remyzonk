@@ -4,6 +4,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
 use App\Models\User as UserModel;
 
@@ -19,7 +20,8 @@ class UserEloquentRepository implements UserRepositoryInterface
 
         return new User(
             new UserId($model->telegram_id),
-            $model->username
+            $model->username,
+            $model->private_chat_id !== null ? new ChatId($model->private_chat_id) : null,
         );
     }
 
@@ -33,15 +35,21 @@ class UserEloquentRepository implements UserRepositoryInterface
 
         return new User(
             new UserId($model->telegram_id),
-            $model->username
+            $model->username,
+            $model->private_chat_id !== null ? new ChatId($model->private_chat_id) : null,
         );
     }
 
     public function save(User $user): void
     {
         UserModel::updateOrCreate(
-            ['telegram_id' => $user->getId()->value()],
-            ['username' => $user->getUsername()]
+            [
+                'telegram_id' => $user->getId()->value()
+            ],
+            [
+                'username' => $user->getUsername(),
+                'private_chat_id' => $user->getPrivateChatId()?->value()
+            ]
         );
     }
 }

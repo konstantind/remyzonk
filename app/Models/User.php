@@ -13,5 +13,6 @@ class User extends Model
     protected $fillable = [
         'telegram_id',
         'username',
+        'private_chat_id',
     ];
 }

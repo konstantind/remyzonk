@@ -33,11 +33,19 @@ class RemindCommand extends Command
         $chatId = $message->getChat()->getId();
         $fromUser = $message->getFrom();
         $text = $message->getText();
+        $chat = $message->getChat();
+
+        $privateChatId = null;
+
+        if ($chat->getType() === 'private') {
+            $privateChatId = $chat->getId();
+        }
 
         $this->saveUserUseCase->execute(
             new SaveUserUseCaseRequestDTO(
                 $fromUser->getId(),
                 $fromUser->getUsername(),
+                $privateChatId,
             )
         );
 

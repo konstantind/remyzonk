@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
 
 class User
@@ -9,6 +10,7 @@ class User
     public function __construct(
         private UserId $id,
         private string $username,
+        private ?ChatId $privateChatId,
     ) {}
 
 
@@ -20,5 +22,10 @@ class User
     public function getId(): UserId
     {
         return $this->id;
+    }
+
+    public function getPrivateChatId(): ?ChatId
+    {
+        return $this->privateChatId;
     }
 }

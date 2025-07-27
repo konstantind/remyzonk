@@ -10,8 +10,8 @@ use App\Infrastructure\Repository\ReminderEloquentRepository;
 use App\Infrastructure\Repository\UserEloquentRepository;
 use App\Infrastructure\Service\CarbonReminderDateTimeParser;
 use App\Infrastructure\Service\TelegramReminderNotifier;
-use App\Infrastructure\Telegram\Commands\HelpCommand;
 use App\Infrastructure\Telegram\Commands\RemindCommand;
+use App\Infrastructure\Telegram\Commands\StartCommand;
 use Illuminate\Support\ServiceProvider;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Telegram::addCommand(StartCommand::class);
         Telegram::addCommand(RemindCommand::class);
-        Telegram::addCommand(HelpCommand::class);
     }
 }
