@@ -6,9 +6,10 @@ use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\Status;
 use App\Domain\ValueObject\UserId;
 
-class Reminder
+final class Reminder
 {
     private ?int $id = null;
+    private ?int $messageId = null;
 
     public function __construct(
         private ChatId $chatId,
@@ -57,5 +58,10 @@ class Reminder
     public function setStatus(Status $status): void
     {
         $this->status = $status;
+    }
+
+    public function getMessageId(): ?int
+    {
+        return $this->messageId;
     }
 }

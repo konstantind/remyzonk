@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +15,7 @@ class Reminder extends Model
         'text',
         'remind_at',
         'status',
+        'message_id',
     ];
 
     protected $casts = [
@@ -23,6 +24,7 @@ class Reminder extends Model
         'target_user_id' => 'integer',
         'remind_at' => 'datetime',
         'status' => 'string',
+        'message_id' => 'integer',
     ];
 
     public $timestamps = true;

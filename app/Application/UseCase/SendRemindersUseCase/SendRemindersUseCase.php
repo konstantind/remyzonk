@@ -5,8 +5,6 @@ namespace App\Application\UseCase\SendRemindersUseCase;
 use App\Application\Service\ReminderNotifierInterface;
 use App\Domain\Repository\ReminderRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
-use App\Domain\ValueObject\Status;
-use Illuminate\Support\Facades\Log;
 
 class SendRemindersUseCase
 {
@@ -24,28 +22,33 @@ class SendRemindersUseCase
 
         foreach ($pendingReminders as $reminder) {
             $targetUserId = $reminder->getTargetUserId();
+            $chatId = $reminder->getChatId()->value();
+            $text = "Напоминание: " . $reminder->getText();
+
+            $sentToPrivate = false;
 
             if ($targetUserId !== null) {
                 $targetUser = $this->userRepository->findById($targetUserId->value());
 
-                $privateChatId = $targetUser->getPrivateChatId()->value();
-                Log::info("privateChatId = $privateChatId");
-
                 if ($targetUser && $targetUser->getPrivateChatId()) {
-                    $this->notifier->notify(
-                        $targetUser->getPrivateChatId()->value(),
-                        "Напоминание: " . $reminder->getText(),
-                    );
+                    $privateChatId = $targetUser->getPrivateChatId()->value();
+
+                    if ($privateChatId === $chatId) {
+                        $this->notifier->notify($reminder->getId(), $chatId, $text);
+                        $sentToPrivate = true;
+                    } else {
+                        $this->notifier->notify($reminder->getId(), $privateChatId, $text);
+                    }
                 }
             }
 
-            $this->notifier->notify(
-                $reminder->getChatId()->value(),
-                "Напоминание: " . $reminder->getText(),
-            );
+            if (!$sentToPrivate) {
+                $this->notifier->notify($reminder->getId(), $chatId, $text);
+            }
 
-            $reminder->setStatus(Status::DONE);
-            $this->reminderRepository->save($reminder);
+            if ($reminder->getMessageId()) {
+                $this->notifier->removeCancelButton($chatId, $reminder->getMessageId());
+            }
         }
     }
 }

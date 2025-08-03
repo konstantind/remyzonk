@@ -7,9 +7,11 @@ use App\Application\UseCase\CreateReminderUseCase\CreateReminderRequestDTO;
 use App\Application\UseCase\CreateReminderUseCase\CreateReminderUseCase;
 use App\Application\UseCase\SaveUserUseCase\SaveUserUseCase;
 use App\Application\UseCase\SaveUserUseCase\SaveUserUseCaseRequestDTO;
+use App\Application\UseCase\SetReminderMessageIdUseCase\SetReminderMessageIdUseCase;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Commands\Command;
 
 class RemindCommand extends Command
@@ -21,6 +23,7 @@ class RemindCommand extends Command
         protected ReminderDateTimeParserInterface $parser,
         protected UserRepositoryInterface $userRepository,
         protected CreateReminderUseCase $createReminderUseCase,
+        protected SetReminderMessageIdUseCase $setReminderMessageIdUseCase,
         protected SaveUserUseCase $saveUserUseCase,
     ) {
     }
@@ -89,10 +92,23 @@ class RemindCommand extends Command
             remindAt: $remindAt,
         );
 
-        $this->createReminderUseCase->execute($dto);
+        $reminderResponseDTO = $this->createReminderUseCase->execute($dto);
 
-        $this->replyWithMessage([
-            'text' => "✅ Напоминание сохранено на " . $remindAt->format('Y-m-d H:i') . ":\n" . $textWithoutCommand,
+        $response = $this->replyWithMessage([
+            'text' => "🆕 Напоминание сохранено на " . $remindAt->format('Y-m-d H:i') . ":\n" . $textWithoutCommand,
+            'reply_markup' => json_encode([
+                'inline_keyboard' => [
+                    [
+                        [
+                            'text' => '❌ Отменить напоминание',
+                            'callback_data' => 'delete_reminder:' . $reminderResponseDTO->id,
+                        ]
+                    ]
+                ]
+            ])
         ]);
+
+        $messageId = $response->getMessageId();
+        $this->setReminderMessageIdUseCase->execute($reminderResponseDTO->id, $messageId);
     }
 }

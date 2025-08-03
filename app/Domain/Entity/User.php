@@ -5,7 +5,7 @@ namespace App\Domain\Entity;
 use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
 
-class User
+final class User
 {
     public function __construct(
         private UserId $id,

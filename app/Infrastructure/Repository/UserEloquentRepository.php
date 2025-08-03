@@ -6,7 +6,7 @@ use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\ChatId;
 use App\Domain\ValueObject\UserId;
-use App\Models\User as UserModel;
+use App\Infrastructure\Models\User as UserModel;
 
 class UserEloquentRepository implements UserRepositoryInterface
 {

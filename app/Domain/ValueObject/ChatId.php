@@ -4,6 +4,7 @@ namespace App\Domain\ValueObject;
 
 final class ChatId
 {
+    private const MIN_TELEGRAM_CHAT_ID = 1_000_000;
     private int $value;
 
     public function __construct(int $value)
@@ -19,7 +20,7 @@ final class ChatId
 
     public function isValid(int $value): void
     {
-        if (abs($value) < 1_000_000) {
+        if (abs($value) < self::MIN_TELEGRAM_CHAT_ID) {
             throw new \InvalidArgumentException("Chat ID looks suspicious: $value");
         }
     }
